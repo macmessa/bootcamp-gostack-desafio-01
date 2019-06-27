@@ -7,7 +7,7 @@ server.use(express.json());
 
 // Log how many requests have been made so far
 server.use((req, res, next) => {
-  console.count('Requests');
+  console.count(`${req.method} requests`);
   next();
 });
 
