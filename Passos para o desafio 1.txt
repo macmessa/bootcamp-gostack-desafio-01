@@ -1,0 +1,9 @@
+Steps:
+
+1 - Iniciar o gerenciamento das dependências com o yarn (yarn init -y)
+2 - Adicionar o express
+3 - Adicionar nodemon em desenvolvimento para atualizar a aplicação sempre que salvar (yarn add nodemon -D)
+4 - Criar propriedade scripts no package.json para adicionar um atalho no yarn para execução do nodemon (ex.: "dev": "nodemon index.js")
+5 - Criar arquivo inicial da aplicação
+6 - Usar o express para criar as rotas e tratar as requisições e instanciar o objeto server
+7 - Desenvolver a aplicação =D
