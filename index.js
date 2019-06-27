@@ -1,36 +1,41 @@
 const express = require("express");
 const server = express();
 const projects = [];
-let requests = 0; // Number of requests
 
 // Set json model to requests and responses
 server.use(express.json());
 
 // Log how many requests have been made so far
 server.use((req, res, next) => {
-  requests++;
-  console.log(`Requests: ${requests}`);
+  console.count('Requests');
   next();
 });
 
 // Check if project id exists
 function checkProjectExists(req, res, next) {
   // Find the index of the project with required id
-  req.index = projects.findIndex(project => project.id === req.params.id);
+  req.index = projects.findIndex(project => project.id === (req.params.id || req.body.id));
 
-  if (req.index === -1)
+  if (req.index === -1 && req.params.id)
     return res.status(400).json({ error: "Project not found" });
+  else if (req.index >= 0 && req.body.id)
+    return res.status(400).json({ error: "Project id already exists" });
 
   next();
 }
 
 // Create new project in array
-server.post("/projects", (req, res) => {
+server.post("/projects", checkProjectExists, (req, res) => {
   const { id, title } = req.body;
 
   projects.push({ id: id, title: title, tasks: [] });
 
   return res.send(`Project <strong>${title}</strong> created`);
+});
+
+// List all projects and tasks
+server.get("/", (req, res) => {
+  res.redirect("/projects");
 });
 
 // List all projects and tasks
